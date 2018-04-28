@@ -1,0 +1,52 @@
+body {
+    background-color: #e2e2e2;
+    /*background-image: url('../img/air.png');*/
+}
+nav.navbar {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 30px #5a5a5a;
+}
+div.left_main {
+    padding-top: 20px;
+}
+#post-type {
+    font-size: 14px;
+    border: none;
+}
+#post-type:hover {
+    border: none;
+}
+
+#type-link {
+    color: #000000;
+    padding: 5px 8px 5px 8px;
+    margin-right: 7px;
+}
+#type-link:hover {
+    background-color: #f5f5f5;
+    border-radius: 3px;
+}
+#type-link:active {
+    background-color: #001d25;
+    border-radius: 3px;
+    color: #fff;
+}
+#node-nav {
+    background-color: #f9f9f9;
+    border: none;
+    font-size: 14px;
+    padding: 4px;
+    padding-left: 18px;
+}
+#node-link {
+    color: #000000;
+    padding: 5px 8px 5px 8px;
+    margin-right: 7px;
+}
+#node-link:hover {
+    text-decoration: underline;
+}
+
+.list-group-item:hover {
+    z-index: 0;
+}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block left_main %}
+<div class="card">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <ul class="nav" id="post-type">
+                {% for t in type_list %}
+                <li class="nav-item">
+                    <a class="nav-link" id="type-link" href="#">{{ t }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li class="list-group-item" id="node-nav">
+            <ul class="nav" id="node">
+                {% for n in node_list %}
+                <li class="nav-item">
+                    <a class="nav-link" id="node-link" href="#">{{ n }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li class="list-group-item">Vestibulum at eros</li>
+    </ul>
+    <div class="card-footer">底部</div>
+</div>
+
+{% endblock %}
