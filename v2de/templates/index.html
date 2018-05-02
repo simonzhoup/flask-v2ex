@@ -5,9 +5,9 @@
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <ul class="nav" id="post-type">
-                {% for t in type_list %}
+                {% for t in tag_list %}
                 <li class="nav-item">
-                    <a class="nav-link" id="type-link" href="#">{{ t }}</a>
+                    <a class="nav-link" id="type-link" href="{{ url_for('main.index',tag=t) }}" {% if t == tag %}style="background-color: #001d25;border-radius: 3px;color: #fff;" {% endif %}>{{ t }}</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -16,7 +16,7 @@
             <ul class="nav" id="node">
                 {% for n in node_list %}
                 <li class="nav-item">
-                    <a class="nav-link" id="node-link" href="#">{{ n }}</a>
+                    <a class="nav-link" id="node-link" href="#">{{ n.name }}</a>
                 </li>
                 {% endfor %}
             </ul>
