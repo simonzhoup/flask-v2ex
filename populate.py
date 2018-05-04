@@ -1,4 +1,8 @@
-from V2DE import db,Tag,Node
+from V2DE import db,Tag,Node,Post
+import requests
+import json
+from time import sleep
+from v2de.models import User
 
 
 def fill_tag():
@@ -19,7 +23,7 @@ def populate_node():
         '交易':['二手交易','物物交换','免费赠送','域名','团购','安全提示'],
         '城市':['北京','上海','深圳','广州','杭州','成都','昆明','纽约','杉矶'],
         '问与答':['问与答'],
-        '全部':['分享发现','分享创造','问与答','酷工作','程序员','职场话题','奇思妙想','优惠信息']
+        # '全部':['分享发现','分享创造','问与答','酷工作','程序员','职场话题','奇思妙想','优惠信息']
     }
     for t in data.keys():
         tag = Tag.query.filter_by(name=t).first()
@@ -29,4 +33,34 @@ def populate_node():
                     node = Node(name=n,tag_id=tag.id)
                     db.session.add(node)
                     db.session.commit()
+    return 'Done'
+
+def populate_post():
+    url = "https://www.v2ex.com/api/topics/latest.json"
+    r = requests.get(url).text
+    datas = json.loads(r)
+    for data in datas:
+        title = data['title']
+        content = data['content']
+        node_name = data['node']['title']
+        node = Node.query.filter_by(name=node_name).first()
+        if node:
+            p = Post(title=title,content=content,node=node)
+            db.session.add(p)
+            db.session.commit()
+    return 'Done'
+
+def users(num=20):
+    for i in range(num):
+        url = 'https://randomuser.me/api/'
+        r = requests.get(url).text
+        data = json.loads(r)
+        username = data['results'][0]['login']['username']
+        password = data['results'][0]['login']['password']
+        email = data['results'][0]['email']
+        avatar = data['results'][0]['picture']['large']
+        user = User(username=username,password=password,email=email,avatar=avatar)
+        db.session.add(user)
+        db.session.commit()
+        sleep(2)
     return 'Done'

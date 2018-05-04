@@ -51,3 +51,32 @@ div.left_main {
 .list-group-item:hover {
     z-index: 0;
 }
+#post-title {
+    color: #4d5256;
+    text-decoration: none;
+}
+#post-title:hover {
+    text-decoration: underline;
+}
+#index-post-node {
+    /*font-size: 12px;*/
+    color: #999;
+    background-color: #f5f5f5;
+    border-radius: 2px;
+    padding: 4px 4px 4px 4px;
+    text-decoration: none;
+    line-height: 12px;
+}
+#index-post-node:hover {
+    text-decoration: none;
+    background-color: #e2e2e2;
+    color: #777;
+}
+.post-node {
+    display: inline-block;
+}
+.post-info {
+    font-size: 12px;
+    color: #ccc;
+    line-height: 200%;
+}

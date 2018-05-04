@@ -1,13 +1,12 @@
 from . import main
 from flask import render_template,request
-from ..models import Tag,Node
+from ..models import Tag,Node, Post
+
 
 @main.route('/')
 def index():
-    tag_list = [t.name for t in Tag.query.all()]
-    tag = request.args.get('tag','')
-    if tag:
-        node_list = Tag.query.filter_by(name=tag).first().nodes
-    else:
-        node_list = Tag.query.filter_by(id=1).first().nodes
-    return render_template('index.html',tag_list=tag_list,node_list=node_list,tag=tag)
+    tag_list = [t.name for t in Tag.query.order_by(Tag.id)]
+    tag = request.args.get('tag','技术')
+    t = Tag.query.filter_by(name=tag).first()
+    posts = Post.query.join(Node,Node.id==Post.node_id).filter(Node.tag_id==t.id).all()
+    return render_template('index.html',tag_list=tag_list,node_list=t.nodes,tag=tag,posts=posts)

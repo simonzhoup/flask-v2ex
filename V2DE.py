@@ -1,7 +1,7 @@
 from v2de import create_app,db
 from flask_script import Manager,Shell
 from flask_migrate import Migrate,MigrateCommand
-from v2de.models import Tag,Node
+from v2de.models import Tag,Node,Post
 
 app = create_app('development')
 

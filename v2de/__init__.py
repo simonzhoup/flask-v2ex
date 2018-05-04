@@ -1,11 +1,20 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 from config import config
+try:
+    import pymysql
+    pymysql.install_as_MySQLdb()
+except ImportError:
+    pass
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 db = SQLAlchemy()
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'main.login'
 
 
 def create_app(config_name):
@@ -14,6 +23,7 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     db.init_app(app)
+    login_manager.init_app(app)
 
 
     from .main import main as main_blueprint
