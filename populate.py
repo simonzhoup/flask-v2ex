@@ -1,3 +1,5 @@
+import random
+
 from V2DE import db,Tag,Node,Post
 import requests
 import json
@@ -63,4 +65,13 @@ def users(num=20):
         db.session.add(user)
         db.session.commit()
         sleep(2)
+    return 'Done'
+
+def user_post():
+    posts = Post.query.all()
+    for p in posts:
+        if not p.author_id:
+            p.author = random.choice(User.query.all())
+            db.session.add(p)
+            db.session.commit()
     return 'Done'
