@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_bootstrap import Bootstrap
 from config import config
 try:
     import pymysql
@@ -13,6 +14,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+bootstrap = Bootstrap()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'main.login'
 
@@ -24,6 +26,7 @@ def create_app(config_name):
 
     db.init_app(app)
     login_manager.init_app(app)
+    bootstrap.init_app(app)
 
 
     from .main import main as main_blueprint

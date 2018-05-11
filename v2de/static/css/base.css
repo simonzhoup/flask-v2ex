@@ -5,9 +5,17 @@ body {
 nav.navbar {
     background-color: #ffffff;
     box-shadow: 0px 0px 30px #5a5a5a;
+    min-width: 1080px;
 }
 div.left_main {
     padding-top: 20px;
+}
+.container {
+    width: 1080px !important;
+    max-width: none !important;
+}
+.left-main {
+    width: 86% !important;
 }
 #post-type {
     font-size: 14px;
@@ -79,4 +87,39 @@ div.left_main {
     font-size: 12px;
     color: #ccc;
     line-height: 200%;
+}
+.card {
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px rgba(0,0,0,.1);
+    border-bottom: 1px solid #e2e2e2;
+}
+#hot-post {
+    margin-top: 20px;
+}
+#card-nav {
+
+}
+ol.breadcrumb {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0 ;
+    background-color: #fff;
+    font-size: 16px;
+}
+#register-form {
+    padding-top: 10px;
+    padding-left: 30px;
+    width: 550px;
+}
+#register-form input {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 240px;
+    font-family: "Helvetica Neue","Luxi Sans","DejaVu Sans",Tahoma,"Hiragino Sans GB","Microsoft Yahei";
+}
+#register-form label {
+    padding-top: 1px;
+    padding-right: 0px;
+    padding-bottom: 5px;
+    margin-bottom: 0px;
 }

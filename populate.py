@@ -8,6 +8,7 @@ from v2de.models import User
 
 
 def fill_tag():
+    '''填充tag'''
     tags = ['技术','创意','好玩','Apple','酷工作','交易','城市','问与答','最热','全部','节点关注']
     for t in tags:
         tag = Tag(name=t)
@@ -16,6 +17,7 @@ def fill_tag():
     return 'Done'
 
 def populate_node():
+    '''填充节点'''
     data = {
         '技术':['程序员','Python','iDev','Android','Linux','node.js','云计算','宽带症候群'],
         '创意':['分享创造','设计','奇思妙想'],
@@ -38,6 +40,7 @@ def populate_node():
     return 'Done'
 
 def populate_post():
+    '''填充帖子'''
     url = "https://www.v2ex.com/api/topics/latest.json"
     r = requests.get(url).text
     datas = json.loads(r)
@@ -53,6 +56,7 @@ def populate_post():
     return 'Done'
 
 def users(num=20):
+    '''填充用户'''
     for i in range(num):
         url = 'https://randomuser.me/api/'
         r = requests.get(url).text
@@ -68,6 +72,7 @@ def users(num=20):
     return 'Done'
 
 def user_post():
+    '''帖子关联用户'''
     posts = Post.query.all()
     for p in posts:
         if not p.author_id:
