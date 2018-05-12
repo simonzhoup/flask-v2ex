@@ -123,3 +123,10 @@ ol.breadcrumb {
     padding-bottom: 5px;
     margin-bottom: 0px;
 }
+#user-card .list-group-item {
+    font-size: 14px;
+    padding: 10px 10px 10px 10px;
+}
+#user-card p {
+    margin-bottom: 0px;
+}

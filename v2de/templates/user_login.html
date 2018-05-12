@@ -2,7 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
-—— 注册
+—— 登录
 {% endblock %}
 
 {% block left_main %}
@@ -12,12 +12,12 @@
             <nav aria-label="breadcrumb" id="card-nav">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">V2DE</a></li>
-                <li class="breadcrumb-item active" aria-current="page">注册</li>
+                <li class="breadcrumb-item active" aria-current="page">登录</li>
               </ol>
             </nav>
         </li>
         <li class="list-group-item" id="node-nav">
-            <form id="register-form" method="post" action="{{ url_for('main.register') }}">
+            <form id="register-form" method="post" action="{{ url_for('main.login') }}">
                 {{ form.hidden_tag() }}
                 {% if form.errors %}
                 {% for field in form.errors %}
@@ -27,18 +27,16 @@
                 </div>
                 {% endfor %}
                 {% endif %}
+                {% for message in get_flashed_messages() %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>错误：{{ message }}</strong>
+                </div>
+                {% endfor %}
               <div class="form-group row">
                 <label for="colFormLabelSm" class="col-2 col-form-label col-form-label text-right">{{ form.username.label }}</label>
                 <div class="col-10">
                   {{ form.username() }}
-                    <p style="margin-bottom: 0px;color: #ccc;">请使用半角的 a-z 或数字 0-9</p>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="colFormLabelSm" class="col-2 col-form-label col-form-label text-right">{{ form.email.label }}</label>
-                <div class="col-10">
-                  {{ form.email() }}
-                    <p style="margin-bottom: 0px;color: #ccc;">请使用真实电子邮箱注册，我们不会将你的邮箱地址分享给任何人</p>
                 </div>
               </div>
               <div class="form-group row">
@@ -48,15 +46,9 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label for="colFormLabelSm" class="col-2 col-form-label col-form-label text-right">{{ form.password2.label }}</label>
-                <div class="col-10">
-                  {{ form.password2() }}
-                </div>
-              </div>
-              <div class="form-group row">
                 <label for="colFormLabelSm" class="col-2 col-form-label col-form-label text-right"></label>
                 <div class="col-10">
-                  <button type="submit" class="btn btn-secondary btn-sm">submit</button>
+                  <button type="submit" class="btn btn-secondary btn-sm">登录</button>
                 </div>
               </div>
             </form>

@@ -21,7 +21,7 @@
 
 <nav class="navbar navbar-expand navbar-light">
   <div class="container">
-      <a class="navbar-brand" href="#">V2DE</a>
+      <a class="navbar-brand" href="/">V2DE</a>
 {#      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">#}
 {#        <span class="navbar-toggler-icon"></span>#}
 {#      </button>#}
@@ -31,7 +31,7 @@
         </form>
         <ul class="navbar-nav">
           <li class="nav-item active">
-            <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/">首页 <span class="sr-only">(current)</span></a>
           </li>
             {% if current_user.is_authenticated %}
           <li class="nav-item">
@@ -47,11 +47,11 @@
             <a class="nav-link" href="#">设置</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">登出</a>
+            <a class="nav-link" href="{{ url_for('main.logout') }}">登出</a>
           </li>
             {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="#">登录</a>
+            <a class="nav-link" href="{{ url_for('main.login') }}">登录</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('main.register') }}">注册</a>

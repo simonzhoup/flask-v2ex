@@ -1,3 +1,20 @@
+{% if current_user.is_authenticated %}
 <div class="card" id="user-card">
   <div class="card-body">简单的卡片</div>
 </div>
+{% else %}
+<div class="card" id="user-card">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <strong>V2EX = way to explore<br /></strong>
+            <p>这只是一个仿站</p>
+        </li>
+        <li class="list-group-item">
+            <div class="mx-auto" style="width: 120px;">
+            <button type="button" class="btn btn-sm" style="margin-left: 8px">现在注册</button>
+            <p>已有账户？<a href="{{ url_for('main.login') }}">登录</a> </p>
+            </div>
+        </li>
+    </ul>
+</div>
+{% endif %}
