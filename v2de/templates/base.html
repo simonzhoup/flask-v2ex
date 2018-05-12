@@ -35,7 +35,7 @@
           </li>
             {% if current_user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="#">simonzhou</a>
+            <a class="nav-link" href="#">{{ current_user.username }}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">记事本</a>
@@ -62,12 +62,12 @@
 </nav>
 
 <div class="container">
-    <div class="row" style="padding-top: 30px;">
-        <div class="left-main col-9">
+    <div class="row" id="main-page" style="padding-top: 30px;">
+        <div class="left-main col-sm-9">
             {% block left_main %}
             {% endblock %}
         </div>
-        <div class="right-main col-3">
+        <div class="right-main col-sm-3">
             {% block right_main %}
             {% endblock %}
         </div>

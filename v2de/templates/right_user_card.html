@@ -1,6 +1,45 @@
 {% if current_user.is_authenticated %}
 <div class="card" id="user-card">
-  <div class="card-body">简单的卡片</div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item" style="border-bottom: solid 1px #ccc;padding-bottom: 0px;">
+            <div class="row">
+                <div class="col-3">
+                    <img src="{{ current_user.gravatar() }}" height="48px" width="48px" />
+                </div>
+                <div class="col-9" style="color: #4d5256; font-size: 18px;padding-top: 12px">
+                    <strong>{{ current_user.username }}</strong>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 4px; font-size: 15px;">
+                <div class="col-4" style="border-right: solid 1px #ccc">
+                    <p class="text-center" style="color: #385f8a;">0</p>
+                    <p class="text-center" style="color: #cccccc;">节点收藏</p>
+                </div>
+                <div class="col-4" style="border-right: solid 1px #ccc">
+                    <p class="text-center" style="color: #385f8a;">0</p>
+                    <p class="text-center" style="color: #cccccc;">主题收藏</p>
+                </div>
+                <div class="col-4">
+                    <p class="text-center" style="color: #385f8a;">0</p>
+                    <p class="text-center" style="color: #cccccc;">特别关注</p>
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item" style="border-bottom: solid 1px #ccc;padding-top: 6px;padding-bottom: 6px;">
+            <img src="{{ url_for('static',filename='img/flat_compose.png') }}" width="32" height="32" />
+            <a href="#" style="padding-top: 4px; padding-left: 8px;">创作新主题</a>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-6" style="padding-top: 6px;">
+                    <a href="#">0条未读提醒</a>
+                </div>
+                <div class="col-6">
+                    <p class="text-right"> <a href="#" id="money"> 00 <img src="{{ url_for('static',filename='img/silver@2x.png') }}" height="16" width="16" /> 00 <img src="{{ url_for('static',filename='img/bronze@2x.png') }}" height="16" width="16" /> </a></p>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
 {% else %}
 <div class="card" id="user-card">

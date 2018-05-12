@@ -2,13 +2,23 @@ body {
     background-color: #e2e2e2;
     /*background-image: url('../img/air.png');*/
 }
+a {
+    color: #778087 !important;
+}
+a:hover {
+    color: #4d5256 !important;
+}
 nav.navbar {
     background-color: #ffffff;
     box-shadow: 0px 0px 30px #5a5a5a;
     min-width: 1080px;
 }
 div.left_main {
-    padding-top: 20px;
+    padding: 0px 0px 0px 0px;
+}
+div.right-main {
+    width: 270px;
+    padding: 0px 0px 0px 0px;
 }
 .container {
     width: 1080px !important;
@@ -129,4 +139,15 @@ ol.breadcrumb {
 }
 #user-card p {
     margin-bottom: 0px;
+}
+#money {
+    font-size: 11px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #666;
+    text-shadow: 0 1px 0 #fff;
+    display: inline-block;
+    vertical-align: top;
+    background: -webkit-linear-gradient(top,#f5f5f5 0,#e2e2e2 100%);
 }
