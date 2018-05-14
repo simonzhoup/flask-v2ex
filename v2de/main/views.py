@@ -40,12 +40,11 @@ def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
-<<<<<<< HEAD
 @main.route('/member/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first()
     return render_template('user.html',user=user)
-=======
+
 @main.route('/go/<name>',methods=['POST','GET'])
 def node(name):
     node = Node.query.filter_by(name=name).first()
@@ -61,4 +60,3 @@ def node(name):
         db.session.commit()
         return redirect(url_for('main.node',name=node.name))
     return render_template('node.html',node=node)
->>>>>>> 591d80e61c56ca717dd0f14c0db3e241759bbed5
