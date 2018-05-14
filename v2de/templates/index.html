@@ -7,7 +7,9 @@
             <ul class="nav" id="post-type">
                 {% for t in tag_list %}
                 <li class="nav-item">
-                    <a class="nav-link" id="type-link" href="{{ url_for('main.index',tag=t) }}" {% if t == tag %}style="background-color: #001d25;border-radius: 3px;color: #fff;" {% endif %}>{{ t }}</a>
+{#                    <a class="nav-link" id="type-link" href="{{ url_for('main.index',tag=t) }}" {% if t == tag %}style="background-color: #001d25;border-radius: 3px;color: #fff;" {% endif %}>{{ t }}</a>#}
+{#                    <button type="button" href="{{ url_for('main.index',tag=t) }}" class="btn btn-light btn-sm">{{ t }}</button>#}
+                    <a href="{{ url_for('main.index',tag=t) }}" class="btn btn-{% if t==tag %}dark{% else %}light{% endif %} btn-sm" tabindex="-1" role="button" style="margin-right: 10px;{% if t==tag %}color: #ffffff !important;{% endif %}">{{ t }}</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -16,7 +18,7 @@
             <ul class="nav" id="node">
                 {% for n in node_list %}
                 <li class="nav-item">
-                    <a class="nav-link" id="node-link" href="#">{{ n.name }}</a>
+                    <a class="nav-link" id="node-link" href="{{ url_for('main.node',name=n.name) }}">{{ n.name }}</a>
                 </li>
                 {% endfor %}
             </ul>

@@ -24,6 +24,8 @@ class Node(db.Model):
     name = db.Column(db.String(64),unique=True)
     tag_id = db.Column(db.Integer,db.ForeignKey('tags.id'))
     posts = db.relationship('Post',backref='node',lazy='dynamic')
+    header = db.Column(db.String(128))
+    avatar = db.Column(db.String(64))
 
     def __repr__(self):
         return '<Node %r>' % self.name

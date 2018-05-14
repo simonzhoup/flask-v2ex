@@ -20,7 +20,7 @@ def register():
         user = User(username=form.username.data,email=form.email.data,password=form.password.data)
         db.session.add(user)
         db.session.commit()
-        return render_template(url_for('main.index'))
+        return redirect(url_for('main.index'))
     return render_template('user_register.html',form=form)
 
 @main.route('/login',methods=['POST','GET'])
@@ -40,7 +40,25 @@ def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
+<<<<<<< HEAD
 @main.route('/member/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first()
     return render_template('user.html',user=user)
+=======
+@main.route('/go/<name>',methods=['POST','GET'])
+def node(name):
+    node = Node.query.filter_by(name=name).first()
+    if request.method == 'POST':
+        file = request.files.get('avatar','')
+        if file:
+            file.save('v2de/static/img/node/%s.jpg' % node.name)
+            node.avatar = '%s.jpg' %node.name
+        header = request.form.get('header','')
+        if header:
+            node.header = header
+        db.session.add(node)
+        db.session.commit()
+        return redirect(url_for('main.node',name=node.name))
+    return render_template('node.html',node=node)
+>>>>>>> 591d80e61c56ca717dd0f14c0db3e241759bbed5
