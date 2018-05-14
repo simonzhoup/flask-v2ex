@@ -49,7 +49,8 @@ def node(name):
             file.save('v2de/static/img/node/%s.jpg' % node.name)
             node.avatar = '%s.jpg' %node.name
         header = request.form.get('header','')
-        node.header = header
+        if header:
+            node.header = header
         db.session.add(node)
         db.session.commit()
         return redirect(url_for('main.node',name=node.name))
