@@ -26,12 +26,12 @@
         {% for p in posts %}
         <li class="list-group-item">
             <div class="row">
-                <div class="col-md-1"><img src="{{ p.author.gravatar() }}" height="48px" width="48px" class="rounded"> </div>
+                <div class="col-md-1"><a href="{{ url_for('main.user',username=p.author.username) }}"><img src="{{ p.author.gravatar() }}" height="48px" width="48px" class="rounded" /></a>  </div>
                 <div class="col-md-10">
                     <span class="post-title"><a href="#" id="post-title">{{ p.title }}</a></span><br />
                     <span class="post-info">
-                        <div class="post-node"><a href="#" id="index-post-node">{{ p.node.name }}</a></div>&nbsp • &nbsp
-                        <strong style="color:#4d5256;">{{ p.author.username }}</strong>
+                        <div class="post-node"><a href="{{ url_for('main.node',name=p.node.name) }}" id="index-post-node">{{ p.node.name }}</a></div>&nbsp • &nbsp
+                        <strong style="color:#4d5256;"><a href="{{ url_for('main.user',username=p.author.username) }}"> {{ p.author.username }}</a></strong>
                         &nbsp • &nbsp<script>document.write(moment("{{ p.publish_time }}","YYYYMMDD").fromNow());</script>&nbsp • &nbsp最后回复来自
                     </span>
                 </div>

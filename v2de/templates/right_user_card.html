@@ -4,10 +4,10 @@
         <li class="list-group-item" style="border-bottom: solid 1px #ccc;padding-bottom: 0px;">
             <div class="row">
                 <div class="col-3">
-                    <img src="{{ current_user.gravatar() }}" height="48px" width="48px" />
+                    <a href="{{ url_for('main.user',username=current_user.username) }}"><img class="rounded" src="{{ current_user.gravatar() }}" height="48px" width="48px" /></a>
                 </div>
                 <div class="col-9" style="color: #4d5256; font-size: 18px;padding-top: 12px">
-                    <strong>{{ current_user.username }}</strong>
+                    <strong><a href="{{ url_for('main.user',username=current_user.username) }}"> {{ current_user.username }}</a></strong>
                 </div>
             </div>
             <div class="row" style="padding-top: 4px; font-size: 15px;">
