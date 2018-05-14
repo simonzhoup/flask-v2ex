@@ -151,3 +151,17 @@ ol.breadcrumb {
     vertical-align: top;
     background: -webkit-linear-gradient(top,#f5f5f5 0,#e2e2e2 100%);
 }
+.node_header {
+    font-size: 13px;
+    color: #fff;
+    padding: 10px 10px 10px 10px;
+    background-color: #001d25;
+}
+.node_info {
+    padding-left: 30px;
+    padding-right: 0px;
+}
+.node_info div {
+    padding-right: 0px;
+    /*padding-left: 0px;*/
+}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block left_main %}
+<div class="card">
+    <div class="node_header card-body">
+        <div class="row">
+            <div class="node_avatar col-1">
+                <img src="{{ url_for('static',filename='img/node') }}/{{ node.avatar }}" width="72" height="72" />
+            </div>
+            <div class="node_info row col-11">
+                <div class="col-5" style="font-size: 14px;">
+                    <p><a href="/">V2EX</a> › {{ node.name }}</p>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#edit-node">编辑</button>
+                </div>
+                <div class="col-3">
+                    <p>主题总数 {{ node.posts.count() }}  • <a href="#">加入收藏</a></p>
+                </div>
+                <div class="col-10">
+                    <p>{{ node.header }}</p>
+                </div>
+                <div class="col-2">
+                    <button>创建新主题</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit-node">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- 模态框头部 -->
+            <div class="modal-header">
+            <h4 class="modal-title">编辑节点信息</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form id="edit-node" method="post" enctype="multipart/form-data" action="{{ url_for('main.node',name=node.name) }}">
+                    <div class="form-group">
+                        <lable for="avatar">图片</lable>
+                        <input type="file" class="form-control-file" id="avatar" name="avatar" />
+                    </div>
+                    <div class="form-group">
+                        <label for="header">描述</label>
+                        <input type="text" class="form-control" id="header" name="header" />
+                    </div>
+                    <button type="submit" class="btn-primary">提交</button>
+                </form>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
