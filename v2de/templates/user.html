@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+—— {{ user.username }}
+{% endblock %}
+
+{% block left_main %}
+<div class="card" id="register-card">
+    <div class="card-body">
+    <div class="row">
+        <div class="col-2">
+            <img class="rounded" src="{{ user.gravatar() }}" width="80" height="80" />
+        </div>
+        <div class="col-10">
+            <p style="font-size: 24px;color: #000">{{ user.username }}</p>
+            <p style="color: #999">V2EX第{{ user.id }}号会员</p>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block right_main %}
+    <div class="card">
+        <div class="card-body">
+            <p>{{ user.username }}最近的时间轴更新</p>
+        </div>
+    </div>
+{% endblock %}

@@ -39,3 +39,8 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+@main.route('/member/<username>')
+def user(username):
+    user = User.query.filter_by(username=username).first()
+    return render_template('user.html',user=user)

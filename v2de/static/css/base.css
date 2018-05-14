@@ -2,6 +2,16 @@ body {
     background-color: #e2e2e2;
     /*background-image: url('../img/air.png');*/
 }
+nav.navbar {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+#nav-search {
+    margin-top: 0px !important;
+}
+#nav-search-input {
+    height: 28px;
+}
 a {
     color: #778087 !important;
 }
@@ -103,6 +113,9 @@ div.right-main {
     border-radius: 3px;
     box-shadow: 0 2px 3px rgba(0,0,0,.1);
     border-bottom: 1px solid #e2e2e2;
+}
+.card-body {
+    padding: 10px 10px 10px 10px;
 }
 #hot-post {
     margin-top: 20px;
