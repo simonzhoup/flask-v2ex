@@ -59,4 +59,8 @@ def node(name):
         db.session.add(node)
         db.session.commit()
         return redirect(url_for('main.node',name=node.name))
-    return render_template('node.html',node=node)
+    page = request.args.get('page', 1, type=int)
+    pageination =Post.query.filter_by(node_id=node.id).order_by(Post.publish_time.desc()).paginate(page, per_page=2,error_out=False)
+    posts = pageination.items
+    endpoint = 'main.node'
+    return render_template('node.html',node=node,posts=posts,pageination=pageination,endpoint=endpoint)
