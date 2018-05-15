@@ -1,5 +1,5 @@
 from . import main
-from flask import render_template,request,url_for,redirect,flash
+from flask import render_template,request,url_for,redirect,flash,make_response
 from ..models import Tag,Node, Post,User
 from .forms import RegisterForm,LoginForm
 from .. import db
@@ -8,10 +8,19 @@ from flask_login import login_user,login_required,logout_user,current_user
 @main.route('/')
 def index():
     tag_list = [t.name for t in Tag.query.order_by(Tag.id)]
-    tag = request.args.get('tag','技术')
+    tag = request.args.get('tag','')
+    if tag and tag != request.cookies.get('tag',''):
+        return index_cookie(tag)
+    else:
+        tag = request.cookies.get('tag','技术')
     t = Tag.query.filter_by(name=tag).first()
-    posts = Post.query.join(Node,Node.id==Post.node_id).filter(Node.tag_id==t.id).all()
+    posts = Post.query.join(Node,Node.id==Post.node_id).filter(Node.tag_id==t.id).order_by(Post.publish_time.desc()).all()
     return render_template('index.html',tag_list=tag_list,node_list=t.nodes,tag=tag,posts=posts)
+
+def index_cookie(tag):
+    resp = make_response(redirect(url_for('main.index',tag=tag)))
+    resp.set_cookie('tag',tag,max_age=24*60*60)
+    return resp
 
 @main.route('/register',methods=['POST','GET'])
 def register():
@@ -64,3 +73,9 @@ def node(name):
     posts = pageination.items
     endpoint = 'main.node'
     return render_template('node.html',node=node,posts=posts,pageination=pageination,endpoint=endpoint)
+
+
+@main.route('/p/<int:id>')
+def post(id):
+    post = Post.query.get_or_404(id)
+    return render_template('post.html',post=post)

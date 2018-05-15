@@ -46,11 +46,11 @@ def populate_post():
     datas = json.loads(r)
     for data in datas:
         title = data['title']
-        content = data['content']
+        content = data['content_rendered']
         node_name = data['node']['title']
         node = Node.query.filter_by(name=node_name).first()
         if node:
-            p = Post(title=title,content=content,node=node)
+            p = Post(title=title,content=content,node=node,author=random.choice(User.query.all()))
             db.session.add(p)
             db.session.commit()
     return 'Done'
