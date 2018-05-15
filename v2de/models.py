@@ -41,6 +41,20 @@ class Post(db.Model):
     node_id = db.Column(db.Integer,db.ForeignKey('nodes.id'))
     publish_time = db.Column(db.DateTime,default=datetime.now())
     author_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    comments = db.relationship('Comment',backref='posts',lazy='dynamic')
+
+    def chicking(self):
+        self.chick = self.chick + 1
+        db.session.add(self)
+        db.session.commit()
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer,primary_key=True)
+    content = db.Column(db.Text)
+    publish_time = db.Column(db.DateTime,default=datetime.now())
+    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -51,6 +65,8 @@ class User(UserMixin, db.Model):
     avatar = db.Column(db.String(64))
     posts = db.relationship('Post',backref='author',lazy='dynamic')
     avatar_hash = db.Column(db.String(64))
+    comments = db.relationship('Comment',backref='author',lazy='dynamic')
+
 
     @property
     def password(self):

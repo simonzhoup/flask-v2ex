@@ -1,9 +1,12 @@
 from . import main
 from flask import render_template,request,url_for,redirect,flash,make_response
-from ..models import Tag,Node, Post,User
+from ..models import Tag,Node, Post,User,Comment
 from .forms import RegisterForm,LoginForm
 from .. import db
 from flask_login import login_user,login_required,logout_user,current_user
+
+from markdown import markdown
+import bleach
 
 @main.route('/')
 def index():
@@ -69,13 +72,33 @@ def node(name):
         db.session.commit()
         return redirect(url_for('main.node',name=node.name))
     page = request.args.get('page', 1, type=int)
-    pageination =Post.query.filter_by(node_id=node.id).order_by(Post.publish_time.desc()).paginate(page, per_page=2,error_out=False)
+    pageination =Post.query.filter_by(node_id=node.id).order_by(Post.publish_time.desc()).paginate(page, per_page=10,error_out=False)
     posts = pageination.items
     endpoint = 'main.node'
     return render_template('node.html',node=node,posts=posts,pageination=pageination,endpoint=endpoint)
 
+def content_clean(c):
+    allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
+                    'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+                    'h1', 'h2', 'h3', 'p','img']
+    content = bleach.linkify(bleach.clean(
+        markdown(c, output_format='html'),
+        tags=allowed_tags, strip=True))
+    return content
 
-@main.route('/p/<int:id>')
+
+@main.route('/p/<int:id>',methods=['GET','POST'])
 def post(id):
     post = Post.query.get_or_404(id)
-    return render_template('post.html',post=post)
+    if request.method == 'POST':
+        content = request.form.get('comment-content','')
+        if not content:
+            pass
+        comment = Comment(user_id=current_user.id,post_id=post.id,content=content_clean(content))
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('main.post',id=post.id))
+    post.chicking()
+    comments = post.comments.all()
+    last_comment = post.comments.order_by(Comment.publish_time.desc()).first()
+    return render_template('post.html',post=post,comments=comments,last_comment=last_comment)

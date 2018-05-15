@@ -32,10 +32,13 @@
                     <span class="post-info">
                         <div class="post-node"><a href="{{ url_for('main.node',name=p.node.name) }}" id="index-post-node">{{ p.node.name }}</a></div>&nbsp • &nbsp
                         <strong style="color:#4d5256;"><a href="{{ url_for('main.user',username=p.author.username) }}"> {{ p.author.username }}</a></strong>
-                        &nbsp • &nbsp<script>document.write(moment("{{ p.publish_time }}","YYYYMMDD").fromNow());</script>&nbsp • &nbsp最后回复来自
+                        &nbsp • &nbsp<script>document.write(moment("{{ p.publish_time }}").fromNow());</script>
+                        {% if p.comments.count() > 0 %}
+                        &nbsp • &nbsp最后回复来自 <a href="{{ url_for('main.user',username=p.comments.all()[-1].author.username) }}"> {{ p.comments.all()[-1].author.username }}</a>
+                        {% endif %}
                     </span>
                 </div>
-                <div class="col-md-1"><span class="badge badge-pill badge-info">{{ p.chick }}</span></div>
+                <div class="col-md-1"><span class="badge badge-pill badge-info">{{ p.comments.count() }}</span></div>
             </div>
         </li>
         {% endfor %}

@@ -109,6 +109,7 @@ div.right-main {
     line-height: 200%;
 }
 .card {
+    margin-top: 20px;
     background-color: #fff;
     border-radius: 3px;
     box-shadow: 0 2px 3px rgba(0,0,0,.1);
@@ -179,5 +180,27 @@ ol.breadcrumb {
     /*padding-left: 0px;*/
 }
 ul.pagination {
+    margin-bottom: 0px;
+}
+#post-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #000;
+    word-wrap: break-word;
+}
+#post-content img {
+    max-width: 100%;
+}
+#no-comment {
+    background-color: transparent;
+    border: 2px dashed rgba(0,0,0,.1);
+    border-radius: 3px;
+    box-shadow: none;
+    color: rgba(0,0,0,.1);
+}
+.list-group-item {
+    padding: 12px 12px 12px 12px;
+}
+p {
     margin-bottom: 0px;
 }

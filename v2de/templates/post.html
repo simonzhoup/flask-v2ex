@@ -8,15 +8,64 @@
                 <div class="col-10">
                     <p style="margin-bottom: 10px"><a href="/">V2EX</a> › <a href="{{ url_for('main.node',name=post.node.name) }}">{{ post.node.name }}</a></p>
                     <h1 style="font-size: 24px;">{{ post.title }}</h1>
-                    <p style="color: #999;margin-bottom: 0px;font-size: smaller">{{ post.author.username }} · <script>document.write(moment("{{ post.publish_time }}","YYYYMMDD").fromNow());</script> · 999次点击</p>
+                    <p style="color: #999;margin-bottom: 0px;font-size: smaller">{{ post.author.username }} · <script>document.write(moment("{{ post.publish_time }}").fromNow());</script> · {{ post.chick }} 次点击</p>
                 </div>
                 <div class="col-1" style="margin-left: 30px">
                     <img class="rounded" src="{{ post.author.gravatar() }}" width="73" height="73" />
                 </div>
             </div>
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item" id="post-content">
             {{ post.content|safe }}
+        </li>
+    </ul>
+</div>
+
+{% if post.comments.count() != 0 %}
+<div class="card">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item" style="font-size: 14px;color: #999;">
+            <p>{{ post.comments.count() }} 回复&nbsp |&nbsp 最后回复时间 {{ last_comment.publish_time }}</p>
+        </li>
+        {% for c in comments %}
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-1"><a href="{{ url_for('main.user',username=c.author.username) }}"><img src="{{ c.author.gravatar() }}" height="48px" width="48px" class="rounded"></a></div>
+                <div class="col-md-10">
+                    <span class="post-info">
+                        <strong style="color:#4d5256;"><a href="{{ url_for('main.user',username=c.author.username) }}"> {{ c.author.username }}</a></strong>
+                        &nbsp • &nbsp<script>document.write(moment("{{ c.publish_time }}").fromNow());</script>
+                    </span>
+                    <span style="font-size: 14px">{{ c.content|safe }}</span>
+
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
+<div class="card" id="no-comment">
+    <p class="text-center" style="margin-top: 8px;margin-bottom: 8px;">目前尚无回复</p>
+</div>
+{% endif %}
+
+<div class="card">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <p style="font-size: 14px;margin-bottom: 0px">添加一条新回复</p>
+        </li>
+        <li class="list-group-item">
+            <div class="form-group" style="margin-bottom: 0px">
+                <form method="post" action="{{ url_for('main.post',id=post.id) }}">
+                    <textarea class="form-control" rows="3" style="margin-bottom: 8px;font-size: 14px;" id="comment-content" name="comment-content"></textarea>
+                    <button type="submit" class="btn btn-primary btn-sm">回复</button>
+                    <small class="float-right" style="margin-top: 8px">请尽量让自己的回复能够对别人有帮助</small>
+                </form>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <p class="text-right"><a href="/">← V2EX</a> </p>
         </li>
     </ul>
 </div>
