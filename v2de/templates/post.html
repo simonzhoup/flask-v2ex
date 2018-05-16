@@ -8,10 +8,10 @@
                 <div class="col-10">
                     <p style="margin-bottom: 10px"><a href="/">V2EX</a> › <a href="{{ url_for('main.node',name=post.node.name) }}">{{ post.node.name }}</a></p>
                     <h1 style="font-size: 24px;">{{ post.title }}</h1>
-                    <p style="color: #999;margin-bottom: 0px;font-size: smaller">{{ post.author.username }} · <script>document.write(moment("{{ post.publish_time }}").fromNow());</script> · {{ post.chick }} 次点击</p>
+                    <p style="color: #999;margin-bottom: 0px;font-size: smaller"><a href="{{ url_for('main.user',username=post.author.username) }}"> {{ post.author.username }}</a> · <script>document.write(moment("{{ post.publish_time }}").fromNow());</script> · {{ post.chick }} 次点击</p>
                 </div>
                 <div class="col-1" style="margin-left: 30px">
-                    <img class="rounded" src="{{ post.author.gravatar() }}" width="73" height="73" />
+                        <a href="{{ url_for('main.user',username=post.author.username) }}"> <img class="rounded" src="{{ post.author.gravatar() }}" width="73" height="73" /></a>
                 </div>
             </div>
         </li>

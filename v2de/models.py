@@ -17,7 +17,8 @@ class Tag(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.name
-
+    def collection(self,user):
+        return CollecTag.query.filter_by(tag_id=self.id,user_id=user.id).first()
 class Node(db.Model):
     __tablename__ = 'nodes'
     id = db.Column(db.Integer,primary_key=True)
@@ -26,10 +27,14 @@ class Node(db.Model):
     posts = db.relationship('Post',backref='node',lazy='dynamic')
     header = db.Column(db.String(128))
     avatar = db.Column(db.String(64))
+    users = db.relationship('CollectNode',backref='node',lazy='dynamic')
 
     def __repr__(self):
         return '<Node %r>' % self.name
-
+    def collection(self,user):
+        if not user.is_authenticated:
+            return False
+        return CollectNode.query.filter_by(node_id=self.id,user_id=user.id).first()
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -66,6 +71,8 @@ class User(UserMixin, db.Model):
     posts = db.relationship('Post',backref='author',lazy='dynamic')
     avatar_hash = db.Column(db.String(64))
     comments = db.relationship('Comment',backref='author',lazy='dynamic')
+    collectnodes = db.relationship('CollectNode',backref='users',lazy='dynamic')
+    collectags = db.relationship('CollecTag',backref='users',lazy='dynamic')
 
 
     @property
@@ -92,4 +99,19 @@ class User(UserMixin, db.Model):
             db.session.add(self)
             db.session.commit()
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(url=url, hash=hash, size=size, default=default, rating=rating)
+
+class CollectNode(db.Model):
+    __tablename__ = 'collactnode'
+    id = db.Column(db.Integer,primary_key=True)
+    node_id = db.Column(db.Integer,db.ForeignKey('nodes.id'))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    time = db.Column(db.DateTime,default=datetime.now())
+
+
+class CollecTag(db.Model):
+    __tablename__ = 'collactag'
+    id = db.Column(db.Integer,primary_key=True)
+    tag_id = db.Column(db.Integer,db.ForeignKey('tags.id'))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    time = db.Column(db.DateTime,default=datetime.now())
 

@@ -10,12 +10,12 @@
                     <strong><a href="{{ url_for('main.user',username=current_user.username) }}"> {{ current_user.username }}</a></strong>
                 </div>
             </div>
-            <div class="row" style="padding-top: 4px; font-size: 15px;">
-                <div class="col-4" style="border-right: solid 1px #ccc">
-                    <p class="text-center" style="color: #385f8a;">0</p>
+            <div class="row" style="padding-top: 8px; font-size: 15px;">
+                <div class="col-4" style="border-right: solid 1px #ccc;padding-bottom: 4px;">
+                    <p class="text-center" style="color: #385f8a;">{{ current_user.collectnodes.count() }}</p>
                     <p class="text-center" style="color: #cccccc;">节点收藏</p>
                 </div>
-                <div class="col-4" style="border-right: solid 1px #ccc">
+                <div class="col-4" style="border-right: solid 1px #ccc;padding-bottom: 4px;">
                     <p class="text-center" style="color: #385f8a;">0</p>
                     <p class="text-center" style="color: #cccccc;">主题收藏</p>
                 </div>
@@ -41,6 +41,7 @@
         </li>
     </ul>
 </div>
+
 {% else %}
 <div class="card" id="user-card">
     <ul class="list-group list-group-flush">

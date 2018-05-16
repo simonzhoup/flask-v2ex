@@ -203,4 +203,16 @@ ul.pagination {
 }
 p {
     margin-bottom: 0px;
+    color: #999;
+}
+#star-node {
+    background-color: #f9f9f9;
+    margin: 0px;
+    padding: 4px;
+}
+#star-node:hover {
+    box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;
+}
+#node-info p{
+    color: #fff;
 }

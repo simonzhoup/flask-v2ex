@@ -1,24 +1,40 @@
 from . import main
 from flask import render_template,request,url_for,redirect,flash,make_response
-from ..models import Tag,Node, Post,User,Comment
+from ..models import Tag,Node, Post,User,Comment,CollecTag,CollectNode
 from .forms import RegisterForm,LoginForm
 from .. import db
 from flask_login import login_user,login_required,logout_user,current_user
-
+from datetime import datetime
 from markdown import markdown
 import bleach
+
+def sort_post(post):
+    for p in post:
+        return p.comments.count()
 
 @main.route('/')
 def index():
     tag_list = [t.name for t in Tag.query.order_by(Tag.id)]
     tag = request.args.get('tag','')
+    t = Tag.query.filter_by(name=tag).first()
     if tag and tag != request.cookies.get('tag',''):
         return index_cookie(tag)
     else:
         tag = request.cookies.get('tag','技术')
     t = Tag.query.filter_by(name=tag).first()
-    posts = Post.query.join(Node,Node.id==Post.node_id).filter(Node.tag_id==t.id).order_by(Post.publish_time.desc()).all()
-    return render_template('index.html',tag_list=tag_list,node_list=t.nodes,tag=tag,posts=posts)
+    if tag == '最热':
+        hot_posts = [p for p in Post.query.all() if (datetime.now() - p.publish_time).days == 0]
+        hot_posts.sort(key=lambda x: x.comments.count(), reverse=True)
+        posts = hot_posts
+    elif tag == '全部':
+        posts = Post.query.all()[::-1]
+        hot_posts = [p for p in Post.query.all() if (datetime.now()-p.publish_time).days == 0]
+        hot_posts.sort(key=lambda x: x.comments.count(),reverse=True)
+    else:
+        posts = Post.query.join(Node,Node.id==Post.node_id).filter(Node.tag_id==t.id).order_by(Post.publish_time.desc()).all()
+        hot_posts = [p for p in Post.query.all() if (datetime.now()-p.publish_time).days == 0]
+        hot_posts.sort(key=lambda x: x.comments.count(),reverse=True)
+    return render_template('index.html',tag_list=tag_list,node_list=t.nodes,tag=tag,posts=posts,hot_posts=hot_posts)
 
 def index_cookie(tag):
     resp = make_response(redirect(url_for('main.index',tag=tag)))
@@ -102,3 +118,25 @@ def post(id):
     comments = post.comments.all()
     last_comment = post.comments.order_by(Comment.publish_time.desc()).first()
     return render_template('post.html',post=post,comments=comments,last_comment=last_comment)
+
+
+@main.route('/collect/node/')
+@login_required
+def collect_node():
+    node_id = request.args.get('node_id','')
+    if node_id:
+        node = Node.query.filter_by(id=node_id).first()
+        if node:
+            c = CollectNode.query.filter_by(node_id=node_id,user_id=current_user.id).first()
+            if c:
+                db.session.delete(c)
+                db.session.commit()
+                return '加入收藏'
+            else:
+                c =CollectNode(node_id=node.id,user_id=current_user.id)
+                db.session.add(c)
+                db.session.commit()
+                return '取消收藏'
+    return '加入收藏'
+
+

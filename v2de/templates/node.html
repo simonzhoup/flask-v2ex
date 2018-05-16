@@ -3,7 +3,7 @@
 {% block left_main %}
 <div class="card">
     <div class="node_header card-body">
-        <div class="row">
+        <div class="row" id="node-info">
             <div class="node_avatar col-1">
                 <img src="{{ url_for('static',filename='img/node') }}/{{ node.avatar }}" width="72" height="72" />
             </div>
@@ -15,7 +15,13 @@
                     <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#edit-node">编辑</button>
                 </div>
                 <div class="col-3">
-                    <p>主题总数 {{ node.posts.count() }}  • <a href="#" style="color: #03c8ff !important;">加入收藏</a></p>
+                    <p>主题总数 <strong>{{ node.posts.count() }}</strong>  •
+                        {% if current_user.is_authenticated %}
+                        <a href="#" style="color: #03c8ff !important;" id="collect" data-catid="{{ node.id }}">{% if node.collection(current_user) %}取消收藏{% else %}加入收藏{% endif %}</a>
+                        {% else %}
+                        <a href="{{ url_for('main.collect_node') }}" style="color: #03c8ff !important;">加入收藏</a>
+                        {% endif %}
+                    </p>
                 </div>
                 <div class="col-10">
                     <p>{{ node.header }}</p>
@@ -64,11 +70,11 @@
         {% for p in posts %}
         <li class="list-group-item">
             <div class="row">
-                <div class="col-md-1"><img src="{{ p.author.gravatar() }}" height="48px" width="48px" class="rounded"> </div>
+                <div class="col-md-1"><a href="{{ url_for('main.user',username=p.author.username) }}"> <img src="{{ p.author.gravatar() }}" height="48px" width="48px" class="rounded"></a> </div>
                 <div class="col-md-10">
                     <span class="post-title"><a href="{{ url_for('main.post',id=p.id) }}" id="post-title">{{ p.title }}</a></span><br />
                     <span class="post-info">
-                        <strong style="color:#4d5256;">{{ p.author.username }}</strong>
+                        <strong style="color:#4d5256;"><a href="{{ url_for('main.user',username=p.author.username) }}"> {{ p.author.username }}</a> </strong>
                         &nbsp • &nbsp<script>document.write(moment("{{ p.publish_time }}").fromNow());</script>
                         {% if p.comments.count() > 0 %}
                         &nbsp • &nbsp最后回复来自 <a href="{{ url_for('main.user',username=p.comments.all()[-1].author.username) }}"> {{ p.comments.all()[-1].author.username }}</a>
@@ -152,6 +158,15 @@
         </div>
     </div>
 </div>
+    <script>
+    $('#collect').click(function () {
+        var node_id = $(this).attr("data-catid");
+        $.get('{{ url_for('main.collect_node') }}',{node_id:node_id}, function (data) {
+            $('#collect').html(data);
+        });
+        
+    });
+    </script>
 {% endblock %}
 
 {% block right_main %}
