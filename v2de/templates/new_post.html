@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+    <script>
+        function choiceNode(node) {
+            $("#new-post-node").val(node);
+        };
+    </script>
+{% endblock %}
+
+{% block left_main %}
+<div class="card" id="new-post">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <p><a href="/" style="color: #03c8ff !important;">V2EX</a> › 创建新主题</p>
+        </li>
+        <li class="list-group-item">
+            <p>主题标题</p>
+        </li>
+        <li class="list-group-item" style="padding: 0px;">
+            <textarea rows="1" maxlength="120" placeholder="请输入主题标题，如果标题能够表达完整内容，则正文可以为空" autofocus="autofocus" name="new-post-title" id="new-post-title"></textarea>
+        </li>
+        <li class="list-group-item">
+            <p>正文</p>
+        </li>
+        <li class="list-group-item" style="padding: 0px;">
+            <textarea rows="15" maxlength="2000" id="new-post-content" name="new-post-centent" autofocus="autofocus"></textarea>
+        </li>
+        <li class="list-group-item">
+            <div class="form-group" style="margin-bottom: 0px;">
+                <select class="form-control form-control-sm" id="new-post-node">
+                    {% for n in nodes %}
+                    <option value="{{ n.id }}">{{ n.tag.name }} / {{ n.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <small>最热节点 </small>
+            {% for h_n in hot_nodes %}
+            <a href="javascript:choiceNode('{{ h_n.id }}')" id="choice-node"> {{ h_n.name }}</a>
+            {% endfor %}
+        </li>
+    </ul>
+</div>
+{% endblock %}

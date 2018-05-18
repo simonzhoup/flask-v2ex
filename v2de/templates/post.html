@@ -36,6 +36,7 @@
                         <strong style="color:#4d5256;"><a href="{{ url_for('main.user',username=c.author.username) }}"> {{ c.author.username }}</a></strong>
                         &nbsp • &nbsp<script>document.write(moment("{{ c.publish_time }}").fromNow());</script>
                     </span>
+                    <br />
                     <span style="font-size: 14px">{{ c.content|safe }}</span>
 
                 </div>
@@ -69,4 +70,8 @@
         </li>
     </ul>
 </div>
+{% endblock %}
+
+{% block right_main %}
+{% include 'right_user_card.html' %}
 {% endblock %}

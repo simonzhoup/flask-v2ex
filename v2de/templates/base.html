@@ -1,5 +1,7 @@
 <!doctype html>
 <html lang="zh-CN">
+
+{% block head %}
 <head>
     <meta charset="UTF-8">
 {#    <meta name="viewport"#}
@@ -17,6 +19,7 @@
     <script src="{{ url_for('static',filename='js/base.js') }}"></script>
     <title>V2DE{% block title %}{% endblock %}</title>
 </head>
+{% endblock %}
 <body>
 
 <nav class="navbar navbar-expand navbar-light">

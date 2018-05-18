@@ -140,3 +140,9 @@ def collect_node():
     return '加入收藏'
 
 
+@main.route('/new')
+@login_required
+def new_post():
+    nodes = Node.query.all()
+    hot_nodes = sorted(nodes,key=lambda x: x.posts.count(),reverse=True)[:15]
+    return render_template('new_post.html',nodes=nodes,hot_nodes=hot_nodes)
