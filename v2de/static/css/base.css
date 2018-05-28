@@ -263,3 +263,6 @@ p {
 #choice-node:hover {
     background-color: #e2e2e2;
 }
+#view-post p{
+    color: #000011;
+}

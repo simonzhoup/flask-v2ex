@@ -1,5 +1,5 @@
 from . import main
-from flask import render_template,request,url_for,redirect,flash,make_response
+from flask import render_template,request,url_for,redirect,flash,make_response,jsonify
 from ..models import Tag,Node, Post,User,Comment,CollecTag,CollectNode
 from .forms import RegisterForm,LoginForm
 from .. import db
@@ -7,6 +7,7 @@ from flask_login import login_user,login_required,logout_user,current_user
 from datetime import datetime
 from markdown import markdown
 import bleach
+import json
 
 def sort_post(post):
     for p in post:
@@ -102,6 +103,13 @@ def content_clean(c):
         tags=allowed_tags, strip=True))
     return content
 
+def title_clean(t):
+    allowed_tags = []
+    title = bleach.linkify(bleach.clean(
+        markdown(t, output_format='html'),
+        tags=allowed_tags, strip=True))
+    return title
+
 
 @main.route('/p/<int:id>',methods=['GET','POST'])
 def post(id):
@@ -140,9 +148,23 @@ def collect_node():
     return '加入收藏'
 
 
-@main.route('/new')
+@main.route('/new',methods=['GET','POST'])
 @login_required
 def new_post():
     nodes = Node.query.all()
     hot_nodes = sorted(nodes,key=lambda x: x.posts.count(),reverse=True)[:15]
+    if request.method == 'POST':
+        title =request.form.get('title')
+        content = request.form.get('content')
+        node_id = request.form.get('node_id')
+        p = Post(title=title_clean(title),content=content_clean(content),node_id=int(node_id),author_id=current_user.id)
+        db.session.add(p)
+        db.session.commit()
+        return jsonify({'result':'ok'})
     return render_template('new_post.html',nodes=nodes,hot_nodes=hot_nodes)
+
+@main.route('/view/post')
+@login_required
+def view_post():
+    content = request.args.get('content','')
+    return content_clean(content)
