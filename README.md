@@ -1,6 +1,6 @@
 # V2EX
 
-这是一个仿写V2EX的网站，使用python的flask框架编写.
+这是一个仿写[V2EX](https://www.v2ex.com/)的网站，使用python的flask框架编写.
 
 ****
 |Author|simonzhoup|
@@ -21,6 +21,8 @@
 ![](/Screenshots/index.png)
 ### 节点页
 ![](/Screenshots/node.png)
+### 帖子&回复
+![](/Screenshots/post.png)
 ### 编辑帖子
 ![](/Screenshots/new.png)
 ### 注册&登录
