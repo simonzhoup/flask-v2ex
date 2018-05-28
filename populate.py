@@ -7,7 +7,7 @@ from time import sleep
 from v2de.models import User
 
 
-def fill_tag():
+def populate_tag():
     '''填充tag'''
     tags = ['技术','创意','好玩','Apple','酷工作','交易','城市','问与答','最热','全部','节点关注']
     for t in tags:
@@ -55,7 +55,7 @@ def populate_post():
             db.session.commit()
     return 'Done'
 
-def users(num=20):
+def populate_users(num=20):
     '''填充用户'''
     for i in range(num):
         url = 'https://randomuser.me/api/'
