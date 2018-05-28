@@ -8,7 +8,7 @@
 |E-mail|simonzhoup@gmail.com
 
 ## 特点
-完全仿写[https://www.v2ex.com/](#V2EX), 虽然不太熟悉前段语言, 但力求一致, 算是一个很好的学习机会.
+完全仿写[V2EX](https://www.v2ex.com/), 虽然不太熟悉前段语言, 但力求一致, 算是一个很好的学习机会.
 
 后端使用 `Flask` 框架编写
 
@@ -28,7 +28,7 @@
 ![](/Screenshots/login.png)
 
 
-##如何使用
+## 如何使用
 * 创建数据库
 ```python
 #项目使用Flask-Migrate扩展, 用来管理数据库
