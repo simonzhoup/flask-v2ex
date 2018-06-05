@@ -15,9 +15,11 @@
                 </div>
             </div>
         </li>
-        <li class="list-group-item" id="post-content">
-            {{ post.content|safe }}
-        </li>
+        <div class="card-body" id="post-content">
+            <div class="markdown-body" style="font-size: 14px;">
+                {{ post.content|safe }}
+            </div>
+        </div>
     </ul>
 </div>
 

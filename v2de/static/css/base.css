@@ -190,6 +190,7 @@ ul.pagination {
 }
 #post-content img {
     max-width: 100%;
+    /*color: #000011;!important;*/
 }
 #no-comment {
     background-color: transparent;
@@ -203,7 +204,7 @@ ul.pagination {
 }
 p {
     margin-bottom: 0px;
-    color: #999;
+    /*color: #999;*/
 }
 #star-node {
     background-color: #f9f9f9;

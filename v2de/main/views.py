@@ -23,19 +23,18 @@ def index():
     else:
         tag = request.cookies.get('tag','技术')
     t = Tag.query.filter_by(name=tag).first()
+    hot_posts = [p for p in Post.query.all() if (datetime.now() - p.publish_time).days == 0]
+    hot_posts.sort(key=lambda x: x.comments.count(), reverse=True)
     if tag == '最热':
-        hot_posts = [p for p in Post.query.all() if (datetime.now() - p.publish_time).days == 0]
-        hot_posts.sort(key=lambda x: x.comments.count(), reverse=True)
         posts = hot_posts
     elif tag == '全部':
         posts = Post.query.all()[::-1]
-        hot_posts = [p for p in Post.query.all() if (datetime.now()-p.publish_time).days == 0]
-        hot_posts.sort(key=lambda x: x.comments.count(),reverse=True)
+        # hot_posts = [p for p in Post.query.all() if (datetime.now()-p.publish_time).days == 0]
+        posts.sort(key=lambda x: x.comments.count())
     else:
         posts = Post.query.join(Node,Node.id==Post.node_id).filter(Node.tag_id==t.id).order_by(Post.publish_time.desc()).all()
-        hot_posts = [p for p in Post.query.all() if (datetime.now()-p.publish_time).days == 0]
-        hot_posts.sort(key=lambda x: x.comments.count(),reverse=True)
-    return render_template('index.html',tag_list=tag_list,node_list=t.nodes,tag=tag,posts=posts,hot_posts=hot_posts)
+        posts.sort(key=lambda x: x.comments.count())
+    return render_template('index.html',tag_list=tag_list,node_list=t.nodes,tag=tag,posts=posts[:10],hot_posts=hot_posts)
 
 def index_cookie(tag):
     resp = make_response(redirect(url_for('main.index',tag=tag)))
@@ -95,11 +94,13 @@ def node(name):
     return render_template('node.html',node=node,posts=posts,pageination=pageination,endpoint=endpoint)
 
 def content_clean(c):
+    exts = ['markdown.extensions.extra', 'markdown.extensions.codehilite', 'markdown.extensions.tables',
+            'markdown.extensions.toc']
     allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
                     'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-                    'h1', 'h2', 'h3', 'p','img']
+                    'h1', 'h2', 'h3', 'p','img','figure']
     content = bleach.linkify(bleach.clean(
-        markdown(c, output_format='html'),
+        markdown(c, output_format='html5',extensions=exts),
         tags=allowed_tags, strip=True))
     return content
 
