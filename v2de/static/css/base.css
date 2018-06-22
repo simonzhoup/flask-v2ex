@@ -267,3 +267,12 @@ p {
 #view-post p{
     color: #000011;
 }
+#post-foot {
+    padding: 5px;
+    border: 1px rgba(0,0,0,.125);
+    border-top-style:solid;
+}
+#post-foot button{
+    font-size: 12px;
+    border: none;
+}

@@ -20,6 +20,15 @@
                 {{ post.content|safe }}
             </div>
         </div>
+        <div class="card-body" id="post-foot">
+            <button type="button" class="btn btn-outline-secondary btn-sm">加入收藏</button>
+            {% if post.author == current_user %}
+            <button type="button" class="btn btn-outline-secondary btn-sm">增加内容</button>
+            {% endif %}
+            <button type="button" class="btn btn-outline-secondary btn-sm">Weibo</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm">Tweet</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm float-right">忽略主题</button>
+        </div>
     </ul>
 </div>
 
