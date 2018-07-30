@@ -39,6 +39,22 @@ def populate_node():
                     db.session.commit()
     return 'Done'
 
+def populate_users(num=20):
+    '''填充用户'''
+    for i in range(num):
+        url = 'https://randomuser.me/api/'
+        r = requests.get(url).text
+        data = json.loads(r)
+        username = data['results'][0]['login']['username']
+        password = data['results'][0]['login']['password']
+        email = data['results'][0]['email']
+        # avatar = data['results'][0]['picture']['large']
+        user = User(username=username,password=password,email=email)
+        db.session.add(user)
+        db.session.commit()
+        sleep(1)
+    return 'Done'
+
 def populate_post():
     '''填充帖子'''
     url = "https://www.v2ex.com/api/topics/latest.json"
@@ -55,28 +71,26 @@ def populate_post():
             db.session.commit()
     return 'Done'
 
-def populate_users(num=20):
-    '''填充用户'''
-    for i in range(num):
-        url = 'https://randomuser.me/api/'
-        r = requests.get(url).text
-        data = json.loads(r)
-        username = data['results'][0]['login']['username']
-        password = data['results'][0]['login']['password']
-        email = data['results'][0]['email']
-        avatar = data['results'][0]['picture']['large']
-        user = User(username=username,password=password,email=email,avatar=avatar)
-        db.session.add(user)
-        db.session.commit()
-        sleep(2)
-    return 'Done'
 
-def user_post():
-    '''帖子关联用户'''
-    posts = Post.query.all()
-    for p in posts:
-        if not p.author_id:
-            p.author = random.choice(User.query.all())
-            db.session.add(p)
-            db.session.commit()
-    return 'Done'
+#
+# def user_post():
+#     '''帖子关联用户'''
+#     posts = Post.query.all()
+#     for p in posts:
+#         if not p.author_id:
+#             p.author = random.choice(User.query.all())
+#             db.session.add(p)
+#             db.session.commit()
+#     return 'Done'
+
+def populate_data():
+    print('开始填充Tag')
+    populate_tag()
+    print('开始填充节点')
+    populate_node()
+    print('开始填充用户')
+    populate_users()
+    print('开始填充帖子')
+    populate_post()
+    # print('用户关联帖子')
+    # user_post()

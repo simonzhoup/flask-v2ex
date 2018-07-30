@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="card-body" id="post-foot">
-            <button type="button" class="btn btn-outline-secondary btn-sm">加入收藏</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="collect" data-catid="{{ post.id }}">{% if post.collection(current_user) %}取消收藏{% else %}加入收藏{% endif %}</button>
             {% if post.author == current_user %}
             <button type="button" class="btn btn-outline-secondary btn-sm">增加内容</button>
             {% endif %}
@@ -81,6 +81,16 @@
         </li>
     </ul>
 </div>
+        <script>
+    $('#collect').click(function () {
+        var post_id = $(this).attr("data-catid");
+        $.get('{{ url_for('main.collect_post') }}',{post_id:post_id}, function (data) {
+            $('#collect').html(data);
+        });
+
+    });
+    </script>
+
 {% endblock %}
 
 {% block right_main %}

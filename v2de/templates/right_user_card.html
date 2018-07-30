@@ -16,8 +16,10 @@
                     <p class="text-center" style="color: #cccccc;">节点收藏</p>
                 </div>
                 <div class="col-4" style="border-right: solid 1px #ccc;padding-bottom: 4px;">
-                    <p class="text-center" style="color: #385f8a;">0</p>
+                    <a href="{{ url_for('main.collect_posts') }}" style="text-decoration: none;">
+                    <p class="text-center" style="color: #385f8a;">{{ current_user.collectposts.count() }}</p>
                     <p class="text-center" style="color: #cccccc;">主题收藏</p>
+                    </a>
                 </div>
                 <div class="col-4">
                     <p class="text-center" style="color: #385f8a;">0</p>

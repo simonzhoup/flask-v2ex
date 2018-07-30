@@ -1,6 +1,6 @@
 body {
-    background-color: #e2e2e2;
     /*background-image: url('../img/air.png');*/
+    background-color: #e2e2e2;
 }
 nav.navbar {
     padding-top: 4px;
@@ -30,9 +30,10 @@ div.right-main {
     width: 270px;
     padding: 0px 0px 0px 0px;
 }
-.container {
+#container {
     width: 1080px !important;
     max-width: none !important;
+    /*background-color: #e2e2e2;*/
 }
 .left-main {
     width: 86% !important;

@@ -1,6 +1,6 @@
 from . import main
 from flask import render_template,request,url_for,redirect,flash,make_response,jsonify
-from ..models import Tag,Node, Post,User,Comment,CollecTag,CollectNode
+from ..models import Tag,Node, Post,User,Comment,CollecTag,CollectNode, CollectPost
 from .forms import RegisterForm,LoginForm
 from .. import db
 from flask_login import login_user,login_required,logout_user,current_user
@@ -169,3 +169,26 @@ def new_post():
 def view_post():
     content = request.args.get('content','')
     return content_clean(content)
+
+@main.route('/collect/post')
+def collect_post():
+    post_id = request.args.get('post_id')
+    post = Post.query.filter_by(id=post_id).first()
+    if post:
+        c = CollectPost.query.filter_by(post_id=post_id,user_id=current_user.id).first()
+        if c:
+            db.session.delete(c)
+            db.session.commit()
+            return '加入收藏'
+        else:
+            c = CollectPost(post_id=post_id, user_id=current_user.id)
+            db.session.add(c)
+            db.session.commit()
+            return '取消收藏'
+    return '加入收藏'
+
+@main.route('/collect/posts')
+@login_required
+def collect_posts():
+    posts = Post.query.join(CollectPost, CollectPost.post_id == Post.id).filter(CollectPost.user_id==current_user.id).all()
+    return render_template('collect_posts.html',posts=posts)

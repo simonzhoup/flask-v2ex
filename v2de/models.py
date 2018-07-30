@@ -39,7 +39,7 @@ class Node(db.Model):
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer,primary_key=True)
-    title = db.Column(db.String(256))
+    title = db.Column(db.Text)
     content = db.Column(db.Text)
     repies = db.Column(db.Integer,default=0)
     chick = db.Column(db.Integer,default=0)
@@ -52,6 +52,11 @@ class Post(db.Model):
         self.chick = self.chick + 1
         db.session.add(self)
         db.session.commit()
+
+    def collection(self,user):
+        if not user.is_authenticated:
+            return False
+        return CollectPost.query.filter_by(post_id=self.id,user_id=user.id).first()
 
 class Comment(db.Model):
     __tablename__ = 'comments'
@@ -73,6 +78,7 @@ class User(UserMixin, db.Model):
     comments = db.relationship('Comment',backref='author',lazy='dynamic')
     collectnodes = db.relationship('CollectNode',backref='users',lazy='dynamic')
     collectags = db.relationship('CollecTag',backref='users',lazy='dynamic')
+    collectposts = db.relationship('CollectPost',backref='users',lazy='dynamic')
 
 
     @property
@@ -114,4 +120,11 @@ class CollecTag(db.Model):
     tag_id = db.Column(db.Integer,db.ForeignKey('tags.id'))
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     time = db.Column(db.DateTime,default=datetime.now())
+
+class CollectPost(db.Model):
+    __tablename__ = 'collectpost'
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'), primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True)
+    time = db.Column(db.DateTime, default=datetime.now())
+
 
