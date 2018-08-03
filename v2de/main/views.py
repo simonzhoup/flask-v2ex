@@ -1,8 +1,10 @@
+import re
+
 from . import main
 from flask import render_template,request,url_for,redirect,flash,make_response,jsonify
 from ..models import Tag,Node, Post,User,Comment,CollecTag,CollectNode, CollectPost
 from .forms import RegisterForm,LoginForm
-from .. import db
+from .. import db, cache
 from flask_login import login_user,login_required,logout_user,current_user
 from datetime import datetime
 from markdown import markdown
@@ -14,6 +16,7 @@ def sort_post(post):
         return p.comments.count()
 
 @main.route('/')
+# @cache.cached(timeout=60*2)
 def index():
     tag_list = [t.name for t in Tag.query.order_by(Tag.id)]
     tag = request.args.get('tag','')
@@ -118,10 +121,17 @@ def post(id):
     if request.method == 'POST':
         content = request.form.get('comment-content','')
         if not content:
-            pass
+            return redirect(url_for('main.post', id=post.id))
+        username = re.match('@\s(.*)\s',content)
+        if username:
+            username = username.group(1)
+            user = User.query.filter_by(username=username).first()
+            if user:
+                content = content.replace(username,'<a href="/member/%s">%s</a>' %(username,username))
         comment = Comment(user_id=current_user.id,post_id=post.id,content=content_clean(content))
         db.session.add(comment)
         db.session.commit()
+        # print(datetime.now())
         return redirect(url_for('main.post',id=post.id))
     post.chicking()
     comments = post.comments.all()
@@ -150,6 +160,7 @@ def collect_node():
 
 
 @main.route('/new',methods=['GET','POST'])
+@cache.cached(timeout=60*2)
 @login_required
 def new_post():
     nodes = Node.query.all()
@@ -192,3 +203,9 @@ def collect_post():
 def collect_posts():
     posts = Post.query.join(CollectPost, CollectPost.post_id == Post.id).filter(CollectPost.user_id==current_user.id).all()
     return render_template('collect_posts.html',posts=posts)
+
+@main.route('/collect/nodes')
+@login_required
+def collect_nodes():
+    nodes = Node.query.join(CollectNode, CollectNode.node_id == Node.id).filter(CollectNode.user_id == current_user.id).all()
+    return render_template('collect_nodes.html',nodes=nodes)

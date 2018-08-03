@@ -41,15 +41,17 @@
         {% for c in comments %}
         <li class="list-group-item">
             <div class="row">
-                <div class="col-md-1"><a href="{{ url_for('main.user',username=c.author.username) }}"><img src="{{ c.author.gravatar() }}" height="48px" width="48px" class="rounded"></a></div>
-                <div class="col-md-10">
+                <div class="col-1"><a href="{{ url_for('main.user',username=c.author.username) }}"><img src="{{ c.author.gravatar() }}" height="48px" width="48px" class="rounded"></a></div>
+                <div class="col-10">
                     <span class="post-info">
                         <strong style="color:#4d5256;"><a href="{{ url_for('main.user',username=c.author.username) }}"> {{ c.author.username }}</a></strong>
                         &nbsp • &nbsp<script>document.write(moment("{{ c.publish_time }}").fromNow());</script>
                     </span>
                     <br />
                     <span style="font-size: 14px">{{ c.content|safe }}</span>
-
+                </div>
+                <div class="col-1">
+                    <a href="#comment-content" onclick="document.getElementById('comment-content').value='@ {{ c.author.username }} ';"><img src="{{ url_for('static',filename='img/reply.png') }}" /></a>
                 </div>
             </div>
         </li>
@@ -81,7 +83,7 @@
         </li>
     </ul>
 </div>
-        <script>
+    <script>
     $('#collect').click(function () {
         var post_id = $(this).attr("data-catid");
         $.get('{{ url_for('main.collect_post') }}',{post_id:post_id}, function (data) {
@@ -90,6 +92,7 @@
 
     });
     </script>
+
 
 {% endblock %}
 

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+› 我收藏的节点
+{% endblock %}
+
+{% block left_main %}
+<div class="card">
+    <div class="card-body">
+        <p style="margin-bottom: 0px"><a href="/">V2EX</a> › 我收藏的节点</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item" style="padding: 20px;">
+        <div class="row">
+        {% for n in nodes %}
+        <div class="node-card col-2" style="font-size: 14px; color: #4d5256;">
+            <a href="{{ url_for('main.node', name=n.name) }}">
+            <img class="rounded" src="{{ url_for('static',filename='img/node') }}/{{ n.avatar }}" width="98" height="98" />
+            <p class="text-center" style="padding: 6px; text-decoration: none;">{{ n.name }}</p>
+            </a>
+        </div>
+        {% endfor %}
+        </div>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block right_main %}
+{% include 'right_user_card.html' %}
+{% endblock %}

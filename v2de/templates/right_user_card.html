@@ -12,8 +12,10 @@
             </div>
             <div class="row" style="padding-top: 8px; font-size: 15px;">
                 <div class="col-4" style="border-right: solid 1px #ccc;padding-bottom: 4px;">
+                    <a href="{{ url_for('main.collect_nodes') }}" style="text-decoration: none;">
                     <p class="text-center" style="color: #385f8a;">{{ current_user.collectnodes.count() }}</p>
                     <p class="text-center" style="color: #cccccc;">节点收藏</p>
+                    </a>
                 </div>
                 <div class="col-4" style="border-right: solid 1px #ccc;padding-bottom: 4px;">
                     <a href="{{ url_for('main.collect_posts') }}" style="text-decoration: none;">

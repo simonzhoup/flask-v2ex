@@ -15,6 +15,11 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'mysql://root:1234@localhost:3306/v2de'
+    CACHE_TYPE = 'redis'
+    CACHE_REDIS_HOST = '127.0.0.1'
+    CACHE_REDIS_PORT = 6379
+    CACHE_REDIS_DB = ''
+    CACHE_REDIS_PASSWORD = ''
     # SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
     #     'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
